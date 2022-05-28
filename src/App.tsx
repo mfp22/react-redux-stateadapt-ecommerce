@@ -1,10 +1,11 @@
 import { Provider } from "react-redux";
+import Cart from "./Cart";
 
 import store from "./store";
 
 const App = () => (
   <Provider store={store}>
-    <h1>Vite App</h1>
+    <Cart />
   </Provider>
 );
 
