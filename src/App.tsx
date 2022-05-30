@@ -1,5 +1,6 @@
 import { Provider } from "react-redux";
-import Cart from "./Cart";
+
+import Cart from "./features/cart/Cart";
 
 import store from "./store";
 
