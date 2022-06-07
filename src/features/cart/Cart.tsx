@@ -38,7 +38,9 @@ const Cart: React.FC = () => {
         Total + Frete: <strong>{totalWithShipping}</strong>
       </p>
 
-      <button onClick={() => dispatch(addProduct())}>Adicionar produto</button>
+      <button onClick={() => dispatch(addProduct())} id="addProduct">
+        Adicionar produto
+      </button>
       <button onClick={() => dispatch<any>(addProductAsync())}>
         Adicionar produto async
       </button>
