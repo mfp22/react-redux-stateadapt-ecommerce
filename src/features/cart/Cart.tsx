@@ -22,11 +22,11 @@ const Cart: React.FC = () => {
     <div>
       <h1>Carrinho</h1>
 
-      <p>
+      <p id="productsLength">
         Items: <strong>{cart.items.length}</strong>
       </p>
 
-      <p>
+      <p id="shippingValue">
         Frete: <strong>{cart.shipping_value}</strong>
       </p>
 
@@ -41,10 +41,15 @@ const Cart: React.FC = () => {
       <button onClick={() => dispatch(addProduct())} id="addProduct">
         Adicionar produto
       </button>
-      <button onClick={() => dispatch<any>(addProductAsync())}>
+      <button
+        onClick={() => dispatch<any>(addProductAsync())}
+        id="addProductAsync"
+      >
         Adicionar produto async
       </button>
-      <button onClick={() => dispatch(setShipping())}>Calcular frete</button>
+      <button onClick={() => dispatch(setShipping())} id="setShipping">
+        Calcular frete
+      </button>
     </div>
   );
 };
