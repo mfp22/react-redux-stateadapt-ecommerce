@@ -1,9 +1,22 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { globalSelectorsCacheKey, stateSanitizer } from "@state-adapt/core";
 
-import cartReducer from "./features/cart/cartSlice";
+import cartReducer, { cartCache } from "./features/cart/cartSlice";
+
+const cacheChildren = (window as any)[globalSelectorsCacheKey]?.__children;
+cacheChildren.cart = cartCache;
 
 const store = configureStore({
-  reducer: cartReducer,
+  reducer: combineReducers({
+    cart: cartReducer,
+  }),
+  devTools: {
+    stateSanitizer: state =>
+      stateSanitizer({
+        ...state,
+        adapt: {},
+      }),
+  },
 });
 
 export default store;

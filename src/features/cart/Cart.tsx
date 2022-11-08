@@ -5,16 +5,15 @@ import { RootState } from "../../store";
 import {
   addProduct,
   addProductAsync,
-  calculateTotal,
-  calculateTotalWithShippingValue,
+  selectors,
   setShipping,
 } from "./cartSlice";
 
 const Cart: React.FC = () => {
-  const cart = useSelector((state: RootState) => state);
+  const cart = useSelector((state: RootState) => state.cart);
 
-  const total = useSelector(calculateTotal);
-  const totalWithShipping = useSelector(calculateTotalWithShippingValue);
+  const total = useSelector(selectors.total);
+  const totalWithShipping = useSelector(selectors.totalWithShipping);
 
   const dispatch = useDispatch();
 

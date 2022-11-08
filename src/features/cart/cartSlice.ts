@@ -1,4 +1,6 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { buildAdapter, createSelectorsCache } from "@state-adapt/core";
+import { mapToSelectorsWithCache } from "../../map-to-selectors-with-cache.function";
 import { AppDispatch } from "../../store";
 
 interface CartState {
@@ -41,28 +43,28 @@ export const addProductAsync = () => (dispatch: AppDispatch) => {
 };
 
 // selectors
-const calculateTotal = createSelector(
-  (state: CartState) => state.items,
-  (items: any) => {
+const adapter = buildAdapter<CartState>()()({
+  items: s => s.state.items,
+  shippingCost: s => s.state.shipping_value,
+})({
+  total: s => {
     console.log("triggering calculateTotal only when I change state items");
-    return items.reduce((total: number, item: any) => total + item.price, 0);
+    return s.items.reduce((total: number, item: any) => total + item.price, 0);
   },
-);
-
-const calculateTotalWithShippingValue = createSelector(
-  (state: CartState) => state.items,
-  (state: CartState) => state.shipping_value,
-  (items: any, shipping_value: number) => {
+})({
+  totalWithShipping: s => {
     console.log(
       "triggering calculateTotal only when I change state items or shipping_value",
     );
-    return (
-      items.reduce((total: number, item: any) => total + item.price, 0) +
-      shipping_value
-    );
+    return s.total + s.shippingCost;
   },
-);
+})();
 
-export { calculateTotal, calculateTotalWithShippingValue };
+export const cartCache = createSelectorsCache();
+export const selectors = mapToSelectorsWithCache(
+  adapter.selectors,
+  (state: any) => state.cart as CartState,
+  cartCache,
+);
 
 export default cartSlice.reducer;
