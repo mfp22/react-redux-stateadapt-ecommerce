@@ -19,13 +19,13 @@ export const cartSlice = createSlice({
     ...INITIAL_STATE,
   },
   reducers: {
-    addProduct: (state) => {
+    addProduct: state => {
       console.log("addProduct");
       state.items.push({
         price: Math.floor(Math.random() * 400) + 1,
       });
     },
-    setShipping: (state) => {
+    setShipping: state => {
       state.shipping_value = Math.floor(Math.random() * 100) + 1;
     },
   },
@@ -42,25 +42,25 @@ export const addProductAsync = () => (dispatch: AppDispatch) => {
 
 // selectors
 const calculateTotal = createSelector(
-  (state: any) => state.items,
+  (state: CartState) => state.items,
   (items: any) => {
     console.log("triggering calculateTotal only when I change state items");
     return items.reduce((total: number, item: any) => total + item.price, 0);
-  }
+  },
 );
 
 const calculateTotalWithShippingValue = createSelector(
-  (state: any) => state.items,
-  (state: any) => state.shipping_value,
+  (state: CartState) => state.items,
+  (state: CartState) => state.shipping_value,
   (items: any, shipping_value: number) => {
     console.log(
-      "triggering calculateTotal only when I change state items or shipping_value"
+      "triggering calculateTotal only when I change state items or shipping_value",
     );
     return (
       items.reduce((total: number, item: any) => total + item.price, 0) +
       shipping_value
     );
-  }
+  },
 );
 
 export { calculateTotal, calculateTotalWithShippingValue };
